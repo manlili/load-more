@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+	</head>
+	<body>  
+	    <div>下拉加载更多</div>  
+	    <div class="main" style="height:700px;overflow:auto;">  
+	        <div class="child" style='background-color:red;margin-top:20px;color:grey;height:800px' ></div>  
+	    </div>  
+	</body>  
+	<script  type="text/javascript">  
+		
+//	实现原理当滚动条的高度加上滚动条到div顶部的高度大于等于div的可滚动高度时，说明滚动条到底部了
+//	即(this).scrollTop() + $(this).height() >= this.scrollHeight 
+//	预加载：如果等滚动条拉到底部时再加载，会影响用户体验，一个更佳的方式是，当滚动条距离底部一定距离（C）时，就动态加载更多，向服务端请求资源
+//	即(this).scrollTop() + $(this).height() >= this.scrollHeight - C，这里取25
+	$(document).ready(function(){  
+	    $(".main").off("scroll").on("scroll", function() {
+	        if ($(this).scrollTop() + $(this).height() >= this.scrollHeight - 25) {  
+	            $(".main").append('<div style="background-color:red;margin-top:20px;color:grey;height:800px"></div>');  
+	        }  
+	    });  
+	});  
+	</script>   
+</html>

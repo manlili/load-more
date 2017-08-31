@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+		<style type="text/css">
+			body {   /*移动端布局*/
+				position: absolute;
+				top: 0;
+				bottom: 0;
+				left: 0;
+				right: 0;
+			}
+		</style>
+	</head>
+	<body>   
+	    <div class="page-content" style="height:100%;overflow:auto;">  
+	        <div class="child" style='background-color:red;margin-top:20px;color:grey;height:1800px' ></div>  
+	    </div>  
+	</body>  
+	<script  type="text/javascript">  
+		
+//	实现原理当滚动条的高度加上滚动条到div顶部的高度大于等于div的可滚动高度时，说明滚动条到底部了
+//	即(this).scrollTop() + $(this).height() >= this.scrollHeight 
+//	预加载：如果等滚动条拉到底部时再加载，会影响用户体验，一个更佳的方式是，当滚动条距离底部一定距离（C）时，就动态加载更多，向服务端请求资源
+//	即(this).scrollTop() + $(this).height() >= this.scrollHeight - C，这里取25
+	$(document).ready(function(){  
+	    let pageContent = $('.page-content');
+      	let body = document.body 
+      	
+        
+        pageContent.off('scroll').on('scroll', fn)
+        
+        // 加载更多内容
+        function fn () {
+        	console.log('下拉了')
+        	let bottomEl = pageContent.children(':last-child')[0];
+
+	        if (bottomEl) {
+	          let bottom = bottomEl.getBoundingClientRect().bottom
+	          if (bottom < body.clientHeight + 25) {
+	            $(".page-content").append('<div style="background-color:red;margin-top:20px;color:grey;height:800px"></div>'); 
+	          }
+	        }
+        }
+	});  
+	</script>   
+</html>
